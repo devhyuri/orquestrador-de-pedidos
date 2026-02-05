@@ -927,32 +927,7 @@ curl http://localhost:3000/queue/metrics
 
 ---
 
-## 📄 Licença
 
-MIT
-
----
-
-## 🤝 Contribuindo
-
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
----
-
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-1. Verifique a documentação Swagger: http://localhost:3000/api
-2. Consulte os logs da aplicação
-3. Verifique os arquivos de validação:
-   - `VALIDACAO_WEBHOOK.md`
-   - `VALIDACAO_ENFILEIRAMENTO.md`
-   - `VALIDACAO_FILAS_RETRY.md`
-   - `VALIDACAO_INTEGRACOES_EXTERNAS.md`
 
 ---
 
