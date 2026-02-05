@@ -928,7 +928,4 @@ curl http://localhost:3000/queue/metrics
 ---
 
 
-
----
-
 **Desenvolvido com ❤️ usando NestJS**
