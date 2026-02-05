@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "Order Orchestrator API",
+    "description": "Coleção de endpoints para o Orquestrador de Pedidos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Receber Pedido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"ext-123\",\n  \"customer\": {\n    \"email\": \"user@example.com\",\n    \"name\": \"Ana Silva\"\n  },\n  \"items\": [\n    {\n      \"sku\": \"ABC123\",\n      \"qty\": 2,\n      \"unit_price\": 59.9\n    }\n  ],\n  \"currency\": \"USD\",\n  \"idempotency_key\": \"unique-key-{{$randomUUID}}\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/webhooks/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["webhooks", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Receber Pedido (Idempotente)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"ext-123\",\n  \"customer\": {\n    \"email\": \"user@example.com\",\n    \"name\": \"Ana Silva\"\n  },\n  \"items\": [\n    {\n      \"sku\": \"ABC123\",\n      \"qty\": 2,\n      \"unit_price\": 59.9\n    }\n  ],\n  \"currency\": \"USD\",\n  \"idempotency_key\": \"same-key-123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/webhooks/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["webhooks", "orders"]
+            },
+            "description": "Enviar duas vezes com a mesma idempotency_key para testar idempotência"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Listar Pedidos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders?page=1&limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar Pedidos por Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders?status=ENRICHED&page=1&limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ENRICHED"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detalhes do Pedido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{orderId}}",
+                  "description": "ID do pedido retornado no webhook"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Queue",
+      "item": [
+        {
+          "name": "Métricas da Fila",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/queue/metrics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["queue", "metrics"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
